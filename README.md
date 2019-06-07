@@ -1,6 +1,6 @@
-#Unitled Card Matching Game#
+# Unitled Card Matching Game
 
-##An Incredible use of the Cards API, by Erinn Nelson##
+## -an incredible use of the Deck of Cards API, by Erinn Nelson
 
 **Purpose:**
 A card game that challenges the players to select cards and find the ones that match. It's a matching game. After a certain number of strikes, the player loses. If all cards are matched correctly, the player wins and goes to Disney World.
