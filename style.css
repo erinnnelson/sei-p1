@@ -1,11 +1,28 @@
 body {
   text-align: center;
-  /* background-color: darkgreen */
+  background-color: darkgreen
 }
 
 .game-board {
-width: 1000px;
-height: 600px;
+width: 900px;
+height: 700px;
 border: 2px solid black;
 margin: 0 auto;
+display: grid;
+grid-template-rows: 1fr 1fr 1fr 1fr;
+grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
+
+.game-board div {
+  margin: auto;
+  width: 60%;
+
+}
+.game-board img {
+  width: 100%;
+}
+
+button {
+  margin: 20px 0 0 0;
+}
+
