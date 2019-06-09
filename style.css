@@ -1,0 +1,11 @@
+body {
+  text-align: center;
+  /* background-color: darkgreen */
+}
+
+.game-board {
+width: 1000px;
+height: 600px;
+border: 2px solid black;
+margin: 0 auto;
+}
