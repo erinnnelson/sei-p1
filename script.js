@@ -1,6 +1,7 @@
 // HTML elements
 const gameBoard = document.querySelector('.game-board');
-const startButton = document.querySelector('button');
+const startButton = document.querySelector('#start');
+const newGameButton = document.querySelector('#new-game');
 
 // Cards used for the deck are specified here.
 // --NEED CODE FOR RANDOMIZING ? --
@@ -141,8 +142,15 @@ const buildBoard = async (deck) => {
 // Initial call to the API for first and additional board building.
 const getDeck = async () => {
   const deck = await axios.get(deckCall);
-  buildBoard(deck);
+  // buildBoard(deck);
   startButton.addEventListener('click', () => {
+    buildBoard(deck);
+  });
+  startButton.addEventListener('click', () => {
+    newGameButton.style.display = 'inline';
+    console.log(newGameButton.style.display)
+  })
+  newGameButton.addEventListener('click', () => {
     buildBoard(deck);
   });
 };

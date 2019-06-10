@@ -1,13 +1,18 @@
+html {
+  height: 100%;
+}
 body {
   text-align: center;
   background: radial-gradient(darkorange, maroon);
+  background-size: 100%
 }
 
 .game-board {
 background: radial-gradient(green, darkgreen, darkgreen);
-width: 65%;
+width: 75%;
 max-width: 800px;
-border: 2px solid black;
+border: 4px solid black;
+box-shadow: 2px 2px 50px;
 border-radius: 10px;
 margin: 0 auto;
 display: grid;
@@ -19,12 +24,13 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   margin: auto;
   padding: 10px;
   width: 60%;
+  height: 100%;
   border-radius: 6px;
 }
 
 .card-backs:hover {
   box-shadow: 2px 2px 20px;
-  transition: box-shadow .1s ease-in-out;
+  /* transition: box-shadow .1s ease-in-out; */
 }
 
 .game-board img {
@@ -33,11 +39,35 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   border-radius: 6px;
 }
 
-button {
-  margin: 20px 0 0 0;
-}
-
 .tempfixed .card-backs {
   box-shadow: none;
 }
 
+#start {
+grid-column: 3;
+grid-row: 2 / 4;
+background-color: transparent;
+color: white;
+padding: 10%;
+font-size: 12px;
+border: 2px solid white;
+margin: 95% auto 95% auto;
+}
+
+#start:hover {
+  color: black;
+  border: 4px solid black;
+  font-size: 16px;
+  margin: 93% auto 93% auto;
+  padding: 15;
+  transition-property: color, border, font-size, margin, padding;
+  transition-delay: .1s;
+  transition-duration: .4s;
+  transition-timing-function: linear;
+
+}
+
+#new-game {
+  margin: 20px 0 0 0;
+  display: none;
+}
