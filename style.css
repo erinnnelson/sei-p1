@@ -7,7 +7,8 @@ body {
   text-align: center;
   height: 100%;
   background: radial-gradient(darkorange, maroon);
-  background-size: 100%
+  background-size: 100%;
+  font-family: "Impact";
 }
 
 nav {
@@ -29,6 +30,24 @@ text-decoration: none;
   width: 75%;
   max-width: 800px;
   margin: auto;
+  position: relative;
+}
+
+#end-sign {
+position: absolute;
+z-index: 1;
+/* borrowed this trick from: https://css-tricks.com/centering-css-complete-guide/ */
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+#end-text {
+  font-size: 10em;
+  display: none;
+  margin: -100px 0 0 0;
+  -webkit-text-stroke: 3px lightblue;
+
 }
 
 #game-board {
@@ -58,6 +77,10 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
 .card-backs:hover {
   box-shadow: 2px 2px 18px;
+}
+
+.card-backs:active {
+  opacity: .5;
 }
 
 #game-board img {
@@ -102,6 +125,7 @@ transition-timing-function: ease-in;
 }
 
 #underbox {
+  margin-top: 2%;
   margin-left: .75%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -110,11 +134,11 @@ transition-timing-function: ease-in;
 #score-box {
   padding-left: 20%;
   text-align: left;
-  font-weight: bold;
+  line-height: 3px;
   display: none;
 }
 
-#match-count, #possible-matches, #strike-count {
+#match-count, #possible-matches, #strike-count, #possible-strikes {
 font-size: 20px;
 }
 
@@ -136,7 +160,7 @@ font-size: 20px;
   display: none;
   margin: -10px auto;
   transition-property: font-weight, border-radius, box-shadow;
-  transition-duration: .5s;
+  transition-duration: .3s;
   transition-timing-function: linear;
 }
 
@@ -146,7 +170,7 @@ font-size: 20px;
   box-shadow: 1px 1px 50px black;
   font-weight: 100;
   transition-property: font-weight, border-radius, box-shadow;
-  transition-duration: 3s;
+  transition-duration: 1.5s;
   transition-timing-function: ease-out;
   
 }

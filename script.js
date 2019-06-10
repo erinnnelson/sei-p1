@@ -6,6 +6,7 @@ const scoreBox = document.querySelector('#score-box');
 const matchCount = document.querySelector('#match-count');
 const strikeCount = document.querySelector('#strike-count');
 const possibleMatches = document.querySelector('#possible-matches');
+const endText = document.querySelector('#end-text');
 
 // Cards used for the deck are specified here.
 // --NEED CODE FOR RANDOMIZING ? --
@@ -41,9 +42,10 @@ const displayStrikes = () => {
   strikeCount.innerText = playerStrikes;
 };
 
-const resetScore = () => {
+const reset = () => {
   playerScore = 0;
   playerStrikes = 0;
+  endText.style.display = 'none';
 };
 
 
@@ -58,18 +60,20 @@ const hideCard = (cardDiv) => {
   cardDiv.lastElementChild.style.display = 'none';
 }
 
-const showAnswer = (cardDiv) => {
-  cardDiv.firstElementChild.style.display = 'none';
-  cardDiv.lastElementChild.style.opacity = '.5';
-  cardDiv.lastElementChild.style.display = '';
-}
+const endReveal = (cardDiv) => {
+  for (i = 0; i < cardDiv.length; i += 1) {
+    cardDiv[i].firstElementChild.style.display = 'none';
+    cardDiv[i].lastElementChild.style.opacity = '.5';
+    cardDiv[i].lastElementChild.style.display = '';
+  }
+};
 
 const loseProtocol = () => {
   let cardHolder = gameBoard.children;
-  for (i = 0; i < cardHolder.length; i += 1) {
-    showAnswer(cardHolder[i]);
-  }
-  console.log('you lose');
+  endReveal(cardHolder);
+  endText.innerText = "GAME OVER";
+  endText.style.display = 'inline-block';
+  console.log('game over');
 };
 
 const incorrectCards = (cardDiv1, cardDiv2) => {
@@ -81,7 +85,7 @@ const incorrectCards = (cardDiv1, cardDiv2) => {
   }
   cardDiv1.lastElementChild.style.borderColor = 'red';
   cardDiv2.lastElementChild.style.borderColor = 'red';
-  if (playerStrikes >= 5) {
+  if (playerStrikes >= 10) {
     loseProtocol();
   } else {
     setTimeout(function () {
@@ -99,7 +103,9 @@ const incorrectCards = (cardDiv1, cardDiv2) => {
 };
 
 const winProtocol = () => {
-  console.log('you win!')
+  endText.innerText = "YOU WIN";
+  endText.style.display = 'inline-block';
+  console.log('you win!');
 };
 
 const checkWin = (cardDiv1, cardDiv2) => {
@@ -135,7 +141,7 @@ const checkCards = (card1, card2, cardDiv1, cardDiv2) => {
 
 // Function that shuffles and builds the playing board. shows cards when clicked.
 const buildBoard = async (deck) => {
-  resetScore();
+  reset();
   displayScore();
   displayStrikes();
   gameBoard.innerHTML = ``;

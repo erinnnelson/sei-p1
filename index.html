@@ -15,22 +15,25 @@
   <header>
     <nav>
       <a href="">Rules</a>
-      <h1>Untitled Card Matching Game</h1>
+      <h1>Match Em Up</h1>
       <a href="">About</a>
     </nav>
   </header>
   <main>
     <div id="play-area">
+      <div id="end-sign">
+        <p><span id="end-text"></span></p>
+      </div>
       <div id="game-board">
         <button id="start">START</button>
       </div>
       <div id="underbox">
         <div id="score-box">
           <p>MATCHES: <span id="match-count"></span>/<span id="possible-matches">10</span></p>
-          <p>STRIKES: <span id="strike-count"></span></p>
+          <p>STRIKES: <span id="strike-count"></span>/<span id="possible-strikes">10</span></p>
         </div>
         <div id="new-game-div">
-        <button id="new-game">NEW GAME</button>
+          <button id="new-game">NEW GAME</button>
         </div>
       </div>
     </div>
