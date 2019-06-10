@@ -4,9 +4,10 @@ body {
 }
 
 .game-board {
-width: 900px;
-height: 700px;
+width: 65%;
+max-width: 800px;
 border: 2px solid black;
+border-radius: 10px;
 margin: 0 auto;
 display: grid;
 grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -15,20 +16,27 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
 .game-board div {
   margin: auto;
+  padding: 10px;
   width: 60%;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
 .card-backs:hover {
   box-shadow: 2px 2px 20px;
-  transition: box-shadow .2s ease-in-out;
+  transition: box-shadow .1s ease-in-out;
 }
 
 .game-board img {
+  border: 2px solid black;
   width: 100%;
+  border-radius: 6px;
 }
 
 button {
   margin: 20px 0 0 0;
+}
+
+.tempfixed .card-backs {
+  box-shadow: none;
 }
 
