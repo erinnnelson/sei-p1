@@ -1,5 +1,5 @@
 // HTML elements
-const gameBoard = document.querySelector('.game-board');
+const gameBoard = document.querySelector('#game-board');
 const startButton = document.querySelector('#start');
 const newGameButton = document.querySelector('#new-game');
 
@@ -143,16 +143,13 @@ const buildBoard = async (deck) => {
 const getDeck = async () => {
   const deck = await axios.get(deckCall);
   // buildBoard(deck);
-  startButton.addEventListener('click', () => {
-    buildBoard(deck);
-  });
-  startButton.addEventListener('click', () => {
-    newGameButton.style.display = 'inline';
-    console.log(newGameButton.style.display)
-  })
+  buildBoard(deck);
+  newGameButton.style.display = 'block';
   newGameButton.addEventListener('click', () => {
     buildBoard(deck);
   });
 };
 
-getDeck();
+startButton.addEventListener('click', () => {
+  getDeck();
+});
