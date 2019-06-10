@@ -45,15 +45,15 @@ const incorrectCards = (cardDiv1, cardDiv2) => {
   for (i = 0; i < cardDivs.length; i += 1) {
     cardDivs[i].classList.add('tempfixed');
   }
-  cardDiv1.lastElementChild.style.borderColor = 'Red';
-  cardDiv2.lastElementChild.style.borderColor = 'Red';
+  cardDiv1.lastElementChild.style.borderColor = 'red';
+  cardDiv2.lastElementChild.style.borderColor = 'red';
 
 
   setTimeout(function () {
     hideCard(cardDiv1);
     hideCard(cardDiv2);
-    cardDiv1.lastElementChild.style.borderColor = 'Black';
-    cardDiv2.lastElementChild.style.borderColor = 'Black';
+    cardDiv1.lastElementChild.style.borderColor = 'black';
+    cardDiv2.lastElementChild.style.borderColor = 'black';
 
     // lets users click cards again
     for (i = 0; i < cardDivs.length; i += 1) {
@@ -70,8 +70,8 @@ const checkCards = (card1, card2, cardDiv1, cardDiv2) => {
     console.log('match!')
     cardDiv1.className = 'matched';
     cardDiv2.className = 'matched';
-    cardDiv1.lastElementChild.style.borderColor = 'Lightgreen';
-    cardDiv2.lastElementChild.style.borderColor = 'Lightgreen';
+    cardDiv1.lastElementChild.style.borderColor = 'lightgreen';
+    cardDiv2.lastElementChild.style.borderColor = 'lightgreen';
     console.log(cardDiv1);
     console.log(cardDiv2);
 

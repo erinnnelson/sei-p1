@@ -1,9 +1,10 @@
 body {
   text-align: center;
-  background-color: darkgreen
+  background: radial-gradient(darkorange, maroon);
 }
 
 .game-board {
+background: radial-gradient(green, darkgreen, darkgreen);
 width: 65%;
 max-width: 800px;
 border: 2px solid black;
