@@ -2,6 +2,10 @@
 const gameBoard = document.querySelector('#game-board');
 const startButton = document.querySelector('#start');
 const newGameButton = document.querySelector('#new-game');
+const scoreBox = document.querySelector('#score-box');
+const matchCount = document.querySelector('#match-count');
+const strikeCount = document.querySelector('#strike-count');
+const possibleMatches = document.querySelector('#possible-matches');
 
 // Cards used for the deck are specified here.
 // --NEED CODE FOR RANDOMIZING ? --
@@ -26,6 +30,22 @@ const callNewDeck = `new/shuffle/?cards=`
 const deckCall = apiCall + callNewDeck + playingCards;
 const drawNumber = `/draw/?count=20`;
 
+let playerScore = 0;
+let playerStrikes = 0;
+
+const displayScore = () => {
+  matchCount.innerText = playerScore;
+};
+
+const displayStrikes = () => {
+  strikeCount.innerText = playerStrikes;
+};
+
+const resetScore = () => {
+  playerScore = 0;
+  playerStrikes = 0;
+};
+
 
 // Functions for flipping cards front or back
 const showCard = (cardDiv) => {
@@ -38,36 +58,44 @@ const hideCard = (cardDiv) => {
   cardDiv.lastElementChild.style.display = 'none';
 }
 
+const loseProtocol = () => {
+  console.log('you lose');
+};
+
 const incorrectCards = (cardDiv1, cardDiv2) => {
   let cardDivs = gameBoard.children;
-  
   // stops user from picking additional cards during timer
   // --MAYBE INTERRUPT WITH ClICK INSTEAD--
   for (i = 0; i < cardDivs.length; i += 1) {
-    cardDivs[i].classList.add('tempfixed');
+    cardDivs[i].classList.add('fixed');
   }
   cardDiv1.lastElementChild.style.borderColor = 'red';
   cardDiv2.lastElementChild.style.borderColor = 'red';
+  if (playerStrikes >= 5) {
+    loseProtocol();
+  } else {
+    setTimeout(function () {
+      hideCard(cardDiv1);
+      hideCard(cardDiv2);
+      cardDiv1.lastElementChild.style.borderColor = 'black';
+      cardDiv2.lastElementChild.style.borderColor = 'black';
 
-
-  setTimeout(function () {
-    hideCard(cardDiv1);
-    hideCard(cardDiv2);
-    cardDiv1.lastElementChild.style.borderColor = 'black';
-    cardDiv2.lastElementChild.style.borderColor = 'black';
-
-    // lets users click cards again
-    for (i = 0; i < cardDivs.length; i += 1) {
-      cardDivs[i].classList.remove('tempfixed');
-    }
-  }, 1000);
+      // lets users click cards again
+      for (i = 0; i < cardDivs.length; i += 1) {
+        cardDivs[i].classList.remove('fixed');
+      }
+    }, 1000);
+  }
 };
 
-// Function that checks two selected cards to see if they are equal
-// If they are not equal the cards flip back around
-// --NEED CODE TO HIDE CARDS IF USER CLICKS A NEW CARD BEFORE THE PREVIOUS CARDS HIDE THEMSELVES--
-const checkCards = (card1, card2, cardDiv1, cardDiv2) => {
-  if (card1.value === card2.value) {
+const winProtocol = () => {
+  console.log('you win!')
+};
+
+const checkWin = (cardDiv1, cardDiv2) => {
+  if (playerScore >= 10) {
+    winProtocol();
+  } else {
     console.log('match!')
     cardDiv1.className = 'matched';
     cardDiv2.className = 'matched';
@@ -75,16 +103,31 @@ const checkCards = (card1, card2, cardDiv1, cardDiv2) => {
     cardDiv2.lastElementChild.style.borderColor = 'lightgreen';
     console.log(cardDiv1);
     console.log(cardDiv2);
+  }
+};
 
+// Function that checks two selected cards to see if they are equal
+// If they are not equal the cards flip back around
+// --NEED CODE TO HIDE CARDS IF USER CLICKS A NEW CARD BEFORE THE PREVIOUS CARDS HIDE THEMSELVES--
+const checkCards = (card1, card2, cardDiv1, cardDiv2) => {
+  if (card1.value === card2.value) {
+    playerScore += 1;
+    displayScore();
+    checkWin(cardDiv1, cardDiv2);
   } else {
-    console.log('try again, idiot');
+    playerStrikes += 1
+    displayStrikes();
     incorrectCards(cardDiv1, cardDiv2);
+
   }
 
 };
 
 // Function that shuffles and builds the playing board. shows cards when clicked.
 const buildBoard = async (deck) => {
+  resetScore();
+  displayScore();
+  displayStrikes();
   gameBoard.innerHTML = ``;
   let deckId = deck.data.deck_id;
   let shuffledDeck = await axios.get(apiCall + deckId + "/shuffle/");
@@ -107,7 +150,7 @@ const buildBoard = async (deck) => {
     cardHolder.addEventListener('click', () => {
       // looked up some code from https://stackoverflow.com/questions/5898656/check-if-an-element-contains-a-class-in-javascript
       // This if statement checks to see if the card is already part of a match
-      if (cardHolder.classList.contains('matched') || cardHolder.classList.contains('tempfixed')) {
+      if (cardHolder.classList.contains('matched') || cardHolder.classList.contains('fixed')) {
         return;
       }
       if (cardsInPlay === 0) {
@@ -145,11 +188,10 @@ const getDeck = async () => {
   // buildBoard(deck);
   buildBoard(deck);
   newGameButton.style.display = 'block';
+  scoreBox.style.display = 'block';
   newGameButton.addEventListener('click', () => {
     buildBoard(deck);
   });
 };
 
-startButton.addEventListener('click', () => {
-  getDeck();
-});
+startButton.addEventListener('click', getDeck);
