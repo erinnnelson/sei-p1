@@ -58,7 +58,17 @@ const hideCard = (cardDiv) => {
   cardDiv.lastElementChild.style.display = 'none';
 }
 
+const showAnswer = (cardDiv) => {
+  cardDiv.firstElementChild.style.display = 'none';
+  cardDiv.lastElementChild.style.opacity = '.5';
+  cardDiv.lastElementChild.style.display = '';
+}
+
 const loseProtocol = () => {
+  let cardHolder = gameBoard.children;
+  for (i = 0; i < cardHolder.length; i += 1) {
+    showAnswer(cardHolder[i]);
+  }
   console.log('you lose');
 };
 
