@@ -1,0 +1,13 @@
+.cardholder {
+  background-color: transparent;
+  border: 3px solid black;
+  perspective: 1000px;
+}
+
+.cardflipper {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  transition: tranform .8s;
+  transform-style: preserve-3d;
+}
