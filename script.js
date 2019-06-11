@@ -52,7 +52,6 @@ const reset = () => {
   cardsInPlay = 0;
   endText.style.display = 'none';
   for (i = 0; i < cardPlacers.length; i += 1) {
-    console.log(cardPlacers[i]);
     cardPlacers[i].firstElementChild.innerHTML = ''
   }
 };
@@ -60,19 +59,16 @@ const reset = () => {
 
 // Functions for flipping cards front or back
 const freezeCards = () => {
-  let cardDivs = cardLayout.children;
-  for (i = 0; i < cardDivs.length; i += 1) {
-    cardDivs[i].classList.add('fixed');
+  for (i = 0; i < cardPlacers.length; i += 1) {
+    cardPlacers[i].firstElementChild.classList.add('fixed');
   }
 }
 
 const unfreezeCards = () => {
-  let cardDivs = cardLayout.children;
-  for (i = 0; i < cardDivs.length; i += 1) {
-    cardDivs[i].classList.remove('fixed');
+  for (i = 0; i < cardPlacers.length; i += 1) {
+    cardPlacers[i].firstElementChild.classList.remove('fixed');
   }
 }
-
 
 const showCard = (cardFlipper) => {
   cardFlipper.style.transform = 'rotateY(-180deg)';
@@ -93,6 +89,13 @@ const endReveal = (cardDiv) => {
   }
 };
 
+const winProtocol = () => {
+  endText.style.webkitTextStroke = '3px lightgreen'
+  endText.innerText = "YOU WIN";
+  endText.style.display = 'inline-block';
+  console.log('you win!');
+};
+
 const loseProtocol = () => {
   let cardHolder = cardLayout.children;
   endReveal(cardHolder);
@@ -102,55 +105,47 @@ const loseProtocol = () => {
   console.log('game over');
 };
 
-const incorrectCards = (cardDiv1, cardDiv2) => {
+const cardsMatch = (cardFlipper1, cardFlipper2) => {
+  cardFlipper1.classList.add('matched');
+  cardFlipper2.classList.add('matched');
+  cardFlipper1.lastElementChild.firstElementChild.style.borderColor = 'lightgreen';
+  cardFlipper2.lastElementChild.firstElementChild.style.borderColor = 'lightgreen';
+  console.log('match!')
+  if (playerScore >= 10) {
+    winProtocol();
+  }
+}
+
+const cardsMismatch = (cardDiv1, cardDiv2) => {
   freezeCards();
-  cardDiv1.lastElementChild.style.borderColor = 'red';
-  cardDiv2.lastElementChild.style.borderColor = 'red';
+  cardDiv1.lastElementChild.firstElementChild.style.borderColor = 'red';
+  cardDiv2.lastElementChild.firstElementChild.style.borderColor = 'red';
+  console.log(`strike ${playerStrikes}`)
   if (playerStrikes >= 10) {
     loseProtocol();
   } else {
     setTimeout(function () {
       hideCard(cardDiv1);
       hideCard(cardDiv2);
-      cardDiv1.lastElementChild.style.borderColor = 'black';
-      cardDiv2.lastElementChild.style.borderColor = 'black';
+      cardDiv1.lastElementChild.firstElementChild.style.borderColor = 'black';
+      cardDiv2.lastElementChild.firstElementChild.style.borderColor = 'black';
       unfreezeCards();
     }, 1000);
-  }
-};
-
-const winProtocol = () => {
-  endText.style.webkitTextStroke = '3px lightgreen'
-  endText.innerText = "YOU WIN";
-  endText.style.display = 'inline-block';
-  console.log('you win!');
-};
-
-const checkWin = (cardDiv1, cardDiv2) => {
-  console.log('match!')
-  cardDiv1.classList.add('matched');
-  cardDiv2.classList.add('matched');
-  cardDiv1.lastElementChild.style.borderColor = 'lightgreen';
-  cardDiv2.lastElementChild.style.borderColor = 'lightgreen';
-  console.log(cardDiv1);
-  console.log(cardDiv2);
-  if (playerScore >= 10) {
-    winProtocol();
   }
 };
 
 // Function that checks two selected cards to see if they are equal
 // If they are not equal the cards flip back around
 // --NEED CODE TO HIDE CARDS IF USER CLICKS A NEW CARD BEFORE THE PREVIOUS CARDS HIDE THEMSELVES--
-const checkCards = (card1, card2, cardDiv1, cardDiv2) => {
+const checkMatch = (card1, card2, cardFlipper1, cardFlipper2) => {
   if (card1.value === card2.value) {
     playerScore += 1;
     displayScore();
-    checkWin(cardDiv1, cardDiv2);
+    cardsMatch(cardFlipper1, cardFlipper2);
   } else {
     playerStrikes += 1
     displayStrikes();
-    incorrectCards(cardDiv1, cardDiv2);
+    cardsMismatch(cardFlipper1, cardFlipper2);
 
   }
 
@@ -162,10 +157,10 @@ let inspectCard = (card, cardFlipper) => {
   }
   if (cardsInPlay === 0) {
     card1 = card;
-    cardFlipper.firstElementChild.lastElementChild.style.borderColor = 'yellow';
+    cardFlipper.lastElementChild.firstElementChild.style.borderColor = 'yellow';
     showCard(cardFlipper);
     prevCardFlipper = cardFlipper;
-    console.log(card.code);
+    console.log(card1.code);
     cardsInPlay = 1;
   } else {
     card2 = card;
@@ -173,8 +168,8 @@ let inspectCard = (card, cardFlipper) => {
       return;
     }
     showCard(cardFlipper);
-    console.log(card.code);
-    checkCards(card1, card2, prevCardFlipper, cardFlipper);
+    console.log(card2.code);
+    checkMatch(card1, card2, prevCardFlipper, cardFlipper);
     cardsInPlay = 0;
   }
 }
@@ -188,9 +183,6 @@ const buildBoard = async (deck) => {
   let shuffledDeck = await axios.get(apiCall + deckId + "/shuffle/");
   let cardDrawCall = await axios.get(apiCall + deckId + drawNumber);
   let cards = cardDrawCall.data.cards;
-
-  // delete later to see if needed
-  // let prevCardFlipper;
   cards.forEach((card, i) => {
     let cardBack = document.createElement('div');
     cardBack.innerHTML = `<img src="${deckColor()}" alt="Unknown card">`
