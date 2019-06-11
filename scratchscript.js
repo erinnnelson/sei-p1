@@ -5,7 +5,7 @@ let cardFront = document.querySelector('.cardfront');
 
 
 cardBack.addEventListener('click', () => {
-  cardFlipper.style.transform = 'rotateY(180deg)';
+  cardFlipper.style.transform = 'rotateY(-180deg)';
 
 })
 
