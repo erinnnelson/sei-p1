@@ -11,7 +11,7 @@ const endText = document.querySelector('#end-text');
 // Cards used for the deck are specified here.
 // --NEED CODE FOR RANDOMIZING ? --
 const playingCards = `AS,AC,KH,KD,QS,QC,JH,JD,0S,0C,9H,9D,7S,7C,5H,5D,3S,3C,2H,2D`;
-const deckColors = ['assets/card_blue.png', 'assets/card_red.png', 'assets/card_black.png']
+const deckColors = ['assets/card_blue3.png', 'assets/card_red3.png', 'assets/card_black3.png']
 let colorAdvance = Math.floor(Math.random() * 3);
 const deckColor = () => {
   if (colorAdvance === 0) {
@@ -164,7 +164,7 @@ const buildBoard = async (deck) => {
     `
     gameBoard.append(cardHolder);
     cardHolder.addEventListener('click', () => {
-      // looked up some code from https://stackoverflow.com/questions/5898656/check-if-an-element-contains-a-class-in-javascript
+      // borrowed some code from https://stackoverflow.com/questions/5898656/check-if-an-element-contains-a-class-in-javascript
       // This if statement checks to see if the card is already part of a match
       if (cardHolder.classList.contains('matched') || cardHolder.classList.contains('fixed')) {
         return;
@@ -186,9 +186,7 @@ const buildBoard = async (deck) => {
         checkCards(card1, card2, initialCardHolder, cardHolder);
         cardsInPlay = 0;
       }
-
     })
-
   })
   if (colorAdvance === 2) {
     colorAdvance = 0;

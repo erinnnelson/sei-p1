@@ -6,9 +6,10 @@ html {
 body {
   text-align: center;
   height: 100%;
-  background: radial-gradient(darkorange, maroon);
+  background: radial-gradient(#edb065, #e59a22);
   background-size: 100%;
   font-family: "Impact";
+  margin-left: 0 auto;
 }
 
 nav {
@@ -159,17 +160,18 @@ font-size: 20px;
   font-weight: bold;
   display: none;
   margin: -10px auto;
-  transition-property: font-weight, border-radius, box-shadow;
-  transition-duration: .3s;
+  transition-property: font-weight, border-radius, box-shadow, background-color;
+  transition-duration: .2s;
   transition-timing-function: linear;
 }
 
 #new-game:hover {
   color: white;
+  background-color: #ccaa82;
   border-radius: 30px;
   box-shadow: 1px 1px 50px black;
   font-weight: 100;
-  transition-property: font-weight, border-radius, box-shadow;
+  transition-property: font-weight, border-radius, box-shadow, background-color;
   transition-duration: 1.5s;
   transition-timing-function: ease-out;
   
