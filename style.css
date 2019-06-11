@@ -6,7 +6,7 @@ html {
 body {
   text-align: center;
   height: 100%;
-  background: radial-gradient(#edb065, #e59a22);
+  background: radial-gradient(#edb065, #b25023);
   background-size: 100%;
   font-family: "Impact";
   margin-left: 0 auto;
@@ -47,7 +47,6 @@ transform: translate(-50%, -50%);
   font-size: 10em;
   display: none;
   margin: -100px 0 0 0;
-  -webkit-text-stroke: 3px lightblue;
 
 }
 
@@ -92,6 +91,10 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
 .fixed .card-backs {
   box-shadow: none;
+}
+
+.fixed .card-backs:active {
+  opacity: 1;
 }
 
 #start {

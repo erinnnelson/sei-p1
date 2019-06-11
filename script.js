@@ -33,6 +33,7 @@ const drawNumber = `/draw/?count=20`;
 
 let playerScore = 0;
 let playerStrikes = 0;
+let gameHasEnded;
 
 const displayScore = () => {
   matchCount.innerText = playerScore;
@@ -43,6 +44,7 @@ const displayStrikes = () => {
 };
 
 const reset = () => {
+  gameHasEnded = false;
   playerScore = 0;
   playerStrikes = 0;
   endText.style.display = 'none';
@@ -50,39 +52,57 @@ const reset = () => {
 
 
 // Functions for flipping cards front or back
+const freezeCards = () => {
+  let cardDivs = gameBoard.children;
+  for (i = 0; i < cardDivs.length; i += 1) {
+    cardDivs[i].classList.add('fixed');
+  }
+}
+
+const unfreezeCards = () => {
+  let cardDivs = gameBoard.children;
+  for (i = 0; i < cardDivs.length; i += 1) {
+    cardDivs[i].classList.remove('fixed');
+  }
+}
+
+
 const showCard = (cardDiv) => {
   cardDiv.firstElementChild.style.display = 'none';
-  cardDiv.firstElementChild.nextElementSibling.style.display = '';
+  cardDiv.lastElementChild.style.opacity = '1';
+  cardDiv.lastElementChild.style.display = 'block';
+  cardDiv.classList.add('shown');
 };
 
 const hideCard = (cardDiv) => {
-  cardDiv.firstElementChild.style.display = '';
   cardDiv.lastElementChild.style.display = 'none';
+  cardDiv.firstElementChild.style.opacity = '1';
+  cardDiv.firstElementChild.style.display = 'block';
+  cardDiv.classList.remove('shown');
 }
 
 const endReveal = (cardDiv) => {
   for (i = 0; i < cardDiv.length; i += 1) {
-    cardDiv[i].firstElementChild.style.display = 'none';
-    cardDiv[i].lastElementChild.style.opacity = '.5';
-    cardDiv[i].lastElementChild.style.display = '';
+    if (cardDiv[i].classList.contains('shown')) {
+    } else {
+      cardDiv[i].firstElementChild.style.display = 'none';
+      cardDiv[i].lastElementChild.style.opacity = '.5';
+      cardDiv[i].lastElementChild.style.display = 'block';
+    }
   }
 };
 
 const loseProtocol = () => {
   let cardHolder = gameBoard.children;
   endReveal(cardHolder);
+  endText.style.webkitTextStroke = '3px red'
   endText.innerText = "GAME OVER";
   endText.style.display = 'inline-block';
   console.log('game over');
 };
 
 const incorrectCards = (cardDiv1, cardDiv2) => {
-  let cardDivs = gameBoard.children;
-  // stops user from picking additional cards during timer
-  // --MAYBE INTERRUPT WITH ClICK INSTEAD--
-  for (i = 0; i < cardDivs.length; i += 1) {
-    cardDivs[i].classList.add('fixed');
-  }
+  freezeCards();
   cardDiv1.lastElementChild.style.borderColor = 'red';
   cardDiv2.lastElementChild.style.borderColor = 'red';
   if (playerStrikes >= 10) {
@@ -93,32 +113,28 @@ const incorrectCards = (cardDiv1, cardDiv2) => {
       hideCard(cardDiv2);
       cardDiv1.lastElementChild.style.borderColor = 'black';
       cardDiv2.lastElementChild.style.borderColor = 'black';
-
-      // lets users click cards again
-      for (i = 0; i < cardDivs.length; i += 1) {
-        cardDivs[i].classList.remove('fixed');
-      }
+      unfreezeCards();
     }, 1000);
   }
 };
 
 const winProtocol = () => {
+  endText.style.webkitTextStroke = '3px lightgreen'
   endText.innerText = "YOU WIN";
   endText.style.display = 'inline-block';
   console.log('you win!');
 };
 
 const checkWin = (cardDiv1, cardDiv2) => {
+  console.log('match!')
+  cardDiv1.classList.add('matched');
+  cardDiv2.classList.add('matched');
+  cardDiv1.lastElementChild.style.borderColor = 'lightgreen';
+  cardDiv2.lastElementChild.style.borderColor = 'lightgreen';
+  console.log(cardDiv1);
+  console.log(cardDiv2);
   if (playerScore >= 10) {
     winProtocol();
-  } else {
-    console.log('match!')
-    cardDiv1.className = 'matched';
-    cardDiv2.className = 'matched';
-    cardDiv1.lastElementChild.style.borderColor = 'lightgreen';
-    cardDiv2.lastElementChild.style.borderColor = 'lightgreen';
-    console.log(cardDiv1);
-    console.log(cardDiv2);
   }
 };
 
