@@ -1,6 +1,7 @@
 .cardholder {
+  /* width: 226px;
+  height: 314px; */
   background-color: transparent;
-  border: 3px solid black;
   perspective: 1000px;
 }
 
@@ -8,6 +9,30 @@
   position: relative;
   width: 100%;
   text-align: center;
-  transition: tranform .8s;
+  transition: transform .4s;
   transform-style: preserve-3d;
+}
+
+/* .cardholder:hover .cardflipper {
+  transform: rotateY(180deg);
+} */
+
+.cardback, .cardfront {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.cardfront {
+  transform: rotateY(180deg);
+}
+
+.cardback img {
+  border: 3px solid black;
+  border-radius: 13px;
+}
+.cardfront img {
+  border: 3px solid transparent;
+  border-radius: 13px;
 }
