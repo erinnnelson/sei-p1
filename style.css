@@ -151,14 +151,15 @@ transition-timing-function: ease-in;
   outline: none;
 }
 
-#underbox {
-  margin-top: 2%;
-  margin-left: .75%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+#score-box {
+  margin: 0 auto;
+  width: 75%;
+  max-width: 800px;
+  display: none;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
-#score-box {
+#strike-box {
   padding-left: 20%;
   text-align: left;
   line-height: 3px;
@@ -169,7 +170,7 @@ transition-timing-function: ease-in;
 font-size: 20px;
 }
 
-#new-game-div {
+#new-game-box {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   max-height: 100%
@@ -184,7 +185,6 @@ font-size: 20px;
   box-shadow: none;
   border-radius: 10px;
   font-weight: bold;
-  display: none;
   margin: -10px auto;
   transition-property: font-weight, border-radius, box-shadow, background-color;
   transition-duration: .2s;

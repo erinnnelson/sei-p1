@@ -1,6 +1,6 @@
 # Unitled Card Matching Game
 
-## -an incredible use of the Deck of Cards API, by Erinn Nelson-
+## -an incredible use of the Deck of Cards API, by Erinn Nelson
 
 ### **[Surge Site](https://http://cardmatch.surge.sh/ "Card Matching Game")**
 
@@ -9,9 +9,9 @@
 
 A card game that challenges the players to select cards and find the ones that match. It's a matching game. After a certain number of strikes, the player loses. If all cards are matched correctly, the player wins and goes to Disney World.
 
-### **Current Feature**
+### **Current Features:**
 
-* Available cards flip around when clicked
+* Unknown cards flip around when clicked
 
 * Game recognizes cards that match and don't match
 
@@ -21,7 +21,7 @@ A card game that challenges the players to select cards and find the ones that m
 
 * Cards are shuffled randomly each new game
 
-### **Upcoming Features:**
+### **Planned Features:**
 
 **Local Storage**
 
@@ -69,7 +69,7 @@ A card game that challenges the players to select cards and find the ones that m
 <img src="wireframes/wireframe_main.gif" alt="wireframe" width="500"/>
 <img src="wireframes/wireframe_mobile.jpg" alt="mobile wireframe" width="400"/>
 
-### **Stretch Goals:**
+### **Original Stretch Goals:**
 
 **CSS Animations:** Gaze in wonderment as the deck comes to life on your screen! Behold the majesty of cards being dealt and also flipped over!
 

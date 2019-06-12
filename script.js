@@ -3,9 +3,7 @@ const cardPlacers = document.querySelectorAll('.card-placer');
 const startButton = document.querySelector('#start');
 const newGameButton = document.querySelector('#new-game');
 const scoreBox = document.querySelector('#score-box');
-const matchCount = document.querySelector('#match-count');
 const strikeCount = document.querySelector('#strike-count');
-const possibleMatches = document.querySelector('#possible-matches');
 const endText = document.querySelector('#end-text');
 
 // Determining which cards are in the deck
@@ -16,7 +14,7 @@ let deckColorChange = () => {
   randomColor = Math.floor(Math.random() * (deckColors.length));
 };
 let deckColor = () => {
-    return deckColors[randomColor];
+  return deckColors[randomColor];
 };
 
 // API stuff
@@ -32,9 +30,6 @@ let gameHasEnded;
 let cardsInPlay;
 
 // Updates player's status
-const displayScore = () => {
-  matchCount.innerText = playerScore;
-};
 const displayStrikes = () => {
   strikeCount.innerText = playerStrikes;
 };
@@ -43,7 +38,6 @@ const displayStrikes = () => {
 const reset = () => {
   gameHasEnded = false;
   playerScore = 0;
-  displayScore();
   playerStrikes = 0;
   displayStrikes();
   cardsInPlay = 0;
@@ -77,30 +71,12 @@ const hideCard = (cardFlipper) => {
   cardFlipper.style.transform = '';
 }
 
-// specifically for failed game: reveal all remaining cards
-const endReveal = () => {
-  cardPlacers.forEach((card) => {
-    if (!card.firstElementChild.classList.contains('shown')) {
-      setTimeout(() => {
-        showCard(card.firstElementChild);
-      }, 1000);
-    }
-  })
-};
-
 // enacting end-game activity
 const winProtocol = () => {
   endText.style.webkitTextStroke = '3px lightgreen'
   endText.innerText = "YOU WIN";
   endText.style.display = 'inline-block';
   console.log('you win!');
-};
-const loseProtocol = () => {
-  endText.style.webkitTextStroke = '3px red'
-  endText.innerText = "GAME OVER";
-  endText.style.display = 'inline-block';
-  console.log('game over');
-  endReveal();
 };
 
 // check to see if game ends
@@ -119,9 +95,6 @@ const cardsMismatch = (cardDiv1, cardDiv2) => {
   cardDiv1.lastElementChild.firstElementChild.style.borderColor = 'red';
   cardDiv2.lastElementChild.firstElementChild.style.borderColor = 'red';
   console.log(`strike ${playerStrikes}`)
-  if (playerStrikes >= 10) {
-    loseProtocol();
-  } else {
     setTimeout(function () {
       hideCard(cardDiv1);
       hideCard(cardDiv2);
@@ -129,14 +102,12 @@ const cardsMismatch = (cardDiv1, cardDiv2) => {
       cardDiv2.lastElementChild.firstElementChild.style.borderColor = 'black';
       unfreezeCards();
     }, 1000);
-  }
 };
 
 // Evaluates two cards to determine if equal
 const checkMatch = (card1, card2, cardFlipper1, cardFlipper2) => {
   if (card1.value === card2.value) {
     playerScore += 1;
-    displayScore();
     cardsMatch(cardFlipper1, cardFlipper2);
   } else {
     playerStrikes += 1
@@ -199,11 +170,12 @@ const getDeck = async () => {
   // buildBoard(deck);
   buildBoard(deck);
   startButton.style.display = 'none';
-  newGameButton.style.display = 'block';
-  scoreBox.style.display = 'block';
+  scoreBox.style.display = 'grid'
   newGameButton.addEventListener('click', () => {
     buildBoard(deck);
   });
 };
 
 startButton.addEventListener('click', getDeck);
+
+console.log(localStorage);

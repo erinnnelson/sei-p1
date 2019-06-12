@@ -113,14 +113,25 @@
         </div>
         <button id="start">START</button>
       </div>
-      <div id="underbox">
-        <div id="score-box">
-          <p>MATCHES: <span id="match-count"></span>/<span id="possible-matches">10</span></p>
-          <p>STRIKES: <span id="strike-count"></span>/<span id="possible-strikes">10</span></p>
-        </div>
-        <div id="new-game-div">
-          <button id="new-game">NEW GAME</button>
-        </div>
+    </div>
+    <div id="score-box">
+      <div id="strike-count-box" class="game-data">
+          <p><span id="strike-count" class="data-display"></span> STRIKES</p>
+      </div>
+      <div id="strike-last-box" class="game-data">
+        <p>LAST GAME</p>
+          <p><span id="strike-last" class="data-display"></span> STRIKES</p>
+      </div>
+      <div id="new-game-box">
+        <button id="new-game">NEW GAME</button>
+      </div>
+      <div id="strike-best-box" class="game-data">
+        <p>PERSONAL BEST</p>
+          <p><span id="strike-best" class="data-display"></span> STRIKES</p>
+      </div>
+      <div id="win-count-box" class="game-data">
+        <p>OVERALL</p>
+          <p><span id="win-count" class="data-display"></span> WINS</p>
       </div>
     </div>
   </main>
