@@ -44,7 +44,7 @@ const reset = () => {
   gameHasEnded = false;
   playerScore = 0;
   displayScore();
-  playerStrikes = 9;
+  playerStrikes = 0;
   displayStrikes();
   cardsInPlay = 0;
   deckColorChange();

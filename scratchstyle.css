@@ -14,9 +14,9 @@
 }
 
 /* turn off */
-.cardholder:hover .cardflipper {
+/* .cardholder:hover .cardflipper {
   transform: rotateY(180deg);
-}
+} */
 
 .cardback, .cardfront {
   position: absolute;
@@ -28,6 +28,11 @@
 .cardfront {
   transform: rotateY(180deg);
 }
+
+.cardholder:hover {
+  box-shadow: 3px 3px;
+}
+
 /* 
 .cardback img {
   border: 3px solid black;
