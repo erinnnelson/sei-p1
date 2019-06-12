@@ -1,6 +1,5 @@
 // HTML elements
-const cardLayout = document.querySelector('#card-layout');
-const cardPlacers = cardLayout.children;
+const cardPlacers = document.querySelectorAll('.card-placer');
 const startButton = document.querySelector('#start');
 const newGameButton = document.querySelector('#new-game');
 const scoreBox = document.querySelector('#score-box');
@@ -9,21 +8,15 @@ const strikeCount = document.querySelector('#strike-count');
 const possibleMatches = document.querySelector('#possible-matches');
 const endText = document.querySelector('#end-text');
 
-// Cards used for the deck are specified here.
-// --NEED CODE FOR RANDOMIZING ? --
+// Determining which cards are in the deck
 const playingCards = `AS,AC,KH,KD,QS,QC,JH,JD,0S,0C,9H,9D,7S,7C,5H,5D,3S,3C,2H,2D`;
 const deckColors = ['assets/card_blue3.png', 'assets/card_red3.png', 'assets/card_black3.png']
-let colorAdvance = Math.floor(Math.random() * 3);
-const deckColor = () => {
-  if (colorAdvance === 0) {
-    return deckColors[0];
-  }
-  if (colorAdvance === 1) {
-    return deckColors[1];
-  }
-  if (colorAdvance === 2) {
-    return deckColors[2];
-  }
+let randomColor;
+let deckColorChange = () => {
+  randomColor = Math.floor(Math.random() * (deckColors.length));
+};
+let deckColor = () => {
+    return deckColors[randomColor];
 };
 
 // API stuff
@@ -32,79 +25,85 @@ const callNewDeck = `new/shuffle/?cards=`
 const deckCall = apiCall + callNewDeck + playingCards;
 const drawNumber = `/draw/?count=20`;
 
+// Variable declarations
 let playerScore;
 let playerStrikes;
 let gameHasEnded;
 let cardsInPlay;
 
+// Updates player's status
 const displayScore = () => {
   matchCount.innerText = playerScore;
 };
-
 const displayStrikes = () => {
   strikeCount.innerText = playerStrikes;
 };
 
+// Resets everything for a new game
 const reset = () => {
   gameHasEnded = false;
   playerScore = 0;
-  playerStrikes = 0;
+  displayScore();
+  playerStrikes = 9;
+  displayStrikes();
   cardsInPlay = 0;
+  deckColorChange();
   endText.style.display = 'none';
-  for (i = 0; i < cardPlacers.length; i += 1) {
-    cardPlacers[i].firstElementChild.innerHTML = ''
-  }
+  cardPlacers.forEach((card) => {
+    card.firstElementChild.innerHTML = ''
+    card.firstElementChild.classList.remove('fixed', 'shown', 'matched');
+    card.firstElementChild.style.transform = ''
+  })
 };
 
 
-// Functions for flipping cards front or back
+// Functions for freezing/unfreezing all cards on the board so they cannot be selected/flipped
 const freezeCards = () => {
-  for (i = 0; i < cardPlacers.length; i += 1) {
-    cardPlacers[i].firstElementChild.classList.add('fixed');
-  }
-}
-
+  cardPlacers.forEach((card) => {
+    card.firstElementChild.classList.add('fixed');
+  })
+};
 const unfreezeCards = () => {
-  for (i = 0; i < cardPlacers.length; i += 1) {
-    cardPlacers[i].firstElementChild.classList.remove('fixed');
-  }
-}
+  cardPlacers.forEach((card) => {
+    card.firstElementChild.classList.remove('fixed');
+  })
+};
 
+// Functions for card flipping
 const showCard = (cardFlipper) => {
   cardFlipper.style.transform = 'rotateY(-180deg)';
 };
-
 const hideCard = (cardFlipper) => {
   cardFlipper.style.transform = '';
 }
 
-const endReveal = (cardDiv) => {
-  for (i = 0; i < cardDiv.length; i += 1) {
-    if (cardDiv[i].classList.contains('shown')) {
-    } else {
-      cardDiv[i].firstElementChild.style.display = 'none';
-      cardDiv[i].lastElementChild.style.opacity = '.5';
-      cardDiv[i].lastElementChild.style.display = 'block';
+// specifically for failed game: reveal all remaining cards
+const endReveal = () => {
+  cardPlacers.forEach((card) => {
+    if (!card.firstElementChild.classList.contains('shown')) {
+      setTimeout(() => {
+        showCard(card.firstElementChild);
+      }, 1000);
     }
-  }
+  })
 };
 
+// enacting end-game activity
 const winProtocol = () => {
   endText.style.webkitTextStroke = '3px lightgreen'
   endText.innerText = "YOU WIN";
   endText.style.display = 'inline-block';
   console.log('you win!');
 };
-
 const loseProtocol = () => {
-  let cardHolder = cardLayout.children;
-  endReveal(cardHolder);
   endText.style.webkitTextStroke = '3px red'
   endText.innerText = "GAME OVER";
   endText.style.display = 'inline-block';
   console.log('game over');
+  endReveal();
 };
 
+// check to see if game ends
 const cardsMatch = (cardFlipper1, cardFlipper2) => {
   cardFlipper1.classList.add('matched');
   cardFlipper2.classList.add('matched');
@@ -115,7 +114,6 @@ const cardsMatch = (cardFlipper1, cardFlipper2) => {
     winProtocol();
   }
 }
-
 const cardsMismatch = (cardDiv1, cardDiv2) => {
   freezeCards();
   cardDiv1.lastElementChild.firstElementChild.style.borderColor = 'red';
@@ -134,9 +132,7 @@ const cardsMismatch = (cardDiv1, cardDiv2) => {
   }
 };
 
-// Function that checks two selected cards to see if they are equal
-// If they are not equal the cards flip back around
-// --NEED CODE TO HIDE CARDS IF USER CLICKS A NEW CARD BEFORE THE PREVIOUS CARDS HIDE THEMSELVES--
+// Evaluates two cards to determine if equal
 const checkMatch = (card1, card2, cardFlipper1, cardFlipper2) => {
   if (card1.value === card2.value) {
     playerScore += 1;
@@ -146,11 +142,10 @@ const checkMatch = (card1, card2, cardFlipper1, cardFlipper2) => {
     playerStrikes += 1
     displayStrikes();
     cardsMismatch(cardFlipper1, cardFlipper2);
-
   }
-
 };
 
+// Evaluates whether a card can be flipped over and decides how to proceed
 let inspectCard = (card, cardFlipper) => {
   if (cardFlipper.classList.contains('matched') || cardFlipper.classList.contains('fixed')) {
     return;
@@ -174,18 +169,16 @@ let inspectCard = (card, cardFlipper) => {
   }
 }
 
-// Function that shuffles and builds the playing board. shows cards when clicked.
+//Resets the game, shuffles the deck and deals the cards. Listens for card click.
 const buildBoard = async (deck) => {
   reset();
-  displayScore();
-  displayStrikes();
   let deckId = deck.data.deck_id;
-  let shuffledDeck = await axios.get(apiCall + deckId + "/shuffle/");
+  await axios.get(apiCall + deckId + "/shuffle/");
   let cardDrawCall = await axios.get(apiCall + deckId + drawNumber);
   let cards = cardDrawCall.data.cards;
   cards.forEach((card, i) => {
     let cardBack = document.createElement('div');
-    cardBack.innerHTML = `<img src="${deckColor()}" alt="Unknown card">`
+    cardBack.innerHTML = `<img src="${deckColor()}" alt="Unknown Card">`
     cardBack.classList.add('card-backs');
     let cardFront = document.createElement('div');
     cardFront.innerHTML = `<img src="${card.image}" alt="${card.value} OF ${card.suit}">`
@@ -197,11 +190,6 @@ const buildBoard = async (deck) => {
       inspectCard(card, cardFlipper);
     })
   })
-  if (colorAdvance === 2) {
-    colorAdvance = 0;
-  } else {
-    colorAdvance += 1;
-  }
 }
 
 
@@ -210,6 +198,7 @@ const getDeck = async () => {
   const deck = await axios.get(deckCall);
   // buildBoard(deck);
   buildBoard(deck);
+  startButton.style.display = 'none';
   newGameButton.style.display = 'block';
   scoreBox.style.display = 'block';
   newGameButton.addEventListener('click', () => {

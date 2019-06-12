@@ -127,16 +127,18 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 #start {
-grid-column: 3;
-grid-row: 2 / 4;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
 background-color: transparent;
 color: white;
-padding: 10%;
+padding: 2%;
 font-size: 12px;
 border: 2px solid white;
 margin: auto;
 transition-property: color, border, font-size, font-weight, padding;
-transition-duration: .3s;
+transition-duration: .2s;
 transition-timing-function: ease-in;
 }
 
@@ -144,7 +146,7 @@ transition-timing-function: ease-in;
   color: black;
   border: 4px solid black;
   font-size: 20px;
-  padding: 10%;
+  padding: 4%;
   font-weight: 800;
   transition-property: color, border, font-size, font-weight, padding;
   transition-duration: .1s;
