@@ -70,6 +70,8 @@ Match Em Up is a card game built on HTML, CSS and JavaScript that challenges the
 
 * Add Rules and About text info
 
+* Reorganize the score box with Strikes and Wins on the left and Lowest Strikes and Strikes from the last successful game on the left
+
 **Known Issues**
 
 * Mobile formatting seperates card front and back images slightly. Tapping to turn a card is problamatic.
