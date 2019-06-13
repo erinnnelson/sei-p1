@@ -35,21 +35,9 @@ let totalWins;
 let cardsInPlay;
 let gameWon;
 
-// Updates player's status
-const displayStrikes = () => {
-  strikeCount.innerText = playerStrikes;
-};
-
-const displayPrevStrikes = () => {
-  strikeLast.innerText = prevStrikes;
-};
-
-const displayLowestStrikes = () => {
-  strikeBest.innerText = lowestStrikes;
-};
-
-const displayWins = () => {
-  winCount.innerText = totalWins;
+// Updating score counters
+const displayScore = (htmlElement, score) => {
+  htmlElement.innerText = score;
 };
 
 const updateWins = () => {
@@ -59,7 +47,7 @@ const updateWins = () => {
     } else {
       totalWins = 0;
     }
-    displayWins();
+    displayScore(winCount, totalWins);
   }
 };
 
@@ -67,13 +55,13 @@ const updateLowestStrikes = () => {
   if (gameWon && playerStrikes < lowestStrikes || gameWon && !lowestStrikes) {
     lowestStrikes = playerStrikes;
     localStorage.setItem('lowestStrikes', lowestStrikes);
-    displayLowestStrikes();
+    displayScore(strikeBest, lowestStrikes);
   } else if (lowestStrikes === 0) {
   } else if (!lowestStrikes) {
     if (localStorage.getItem('lowestStrikes')) {
       lowestStrikes = localStorage.getItem('lowestStrikes');
       console.log(lowestStrikes);
-      displayLowestStrikes();
+      displayScore(strikeBest, lowestStrikes);
     } else {
       strikeBest.innerText = '-';
     }
@@ -84,11 +72,11 @@ const updatePrevStrikes = () => {
   if (prevStrikes || prevStrikes === 0) {
     prevStrikes = playerStrikes;
     localStorage.setItem('prevStrikes', prevStrikes);
-    displayPrevStrikes();
+    displayScore(strikeLast, prevStrikes);
   } else {
     if (localStorage.getItem('prevStrikes')) {
       prevStrikes = localStorage.getItem('prevStrikes');
-      displayPrevStrikes();
+      displayScore(strikeLast, prevStrikes);
     } else {
       strikeLast.innerText = '-';
       prevStrikes = 0;
@@ -97,14 +85,14 @@ const updatePrevStrikes = () => {
   }
 };
 
-// Resets everything for a new game
+// Prepare for a new game
 const reset = () => {
   updateWins();
   updateLowestStrikes();
   updatePrevStrikes();
   playerScore = 0;
   playerStrikes = 0;
-  displayStrikes();
+  displayScore(strikeCount, playerStrikes);
   cardsInPlay = 0;
   deckColorChange();
   gameWon = false;
@@ -116,19 +104,20 @@ const reset = () => {
   })
 };
 
-// Functions for freezing/unfreezing all cards on the board so they cannot be selected/flipped
+// Make card interaction inactive
 const freezeCards = () => {
   cardPlacers.forEach((card) => {
     card.firstElementChild.classList.add('fixed');
   })
 };
+
 const unfreezeCards = () => {
   cardPlacers.forEach((card) => {
     card.firstElementChild.classList.remove('fixed');
   })
 };
 
-// Functions for card flipping
+// Flip and hide card animation triggers
 const showCard = (cardFlipper) => {
   cardFlipper.style.transform = 'rotateY(-180deg)';
 };
@@ -136,20 +125,20 @@ const hideCard = (cardFlipper) => {
   cardFlipper.style.transform = '';
 };
 
-// enacting end-game activity
+// End game stuff
 const winProtocol = () => {
   endText.style.webkitTextStroke = '3px lightgreen'
   endText.innerText = "YOU WIN";
   endText.style.display = 'inline-block';
   totalWins = Number(totalWins) + 1;
   localStorage.setItem('totalWins', totalWins);
-  displayWins();
+  displayScore(winCount, totalWins);
   gameWon = true;
   updateLowestStrikes();
   console.log('you win!');
 };
 
-// check to see if game ends
+// Evaluating two card values
 const cardsMatch = (cardFlipper1, cardFlipper2) => {
   cardFlipper1.classList.add('matched');
   cardFlipper2.classList.add('matched');
@@ -168,7 +157,7 @@ const cardsMismatch = (cardDiv1, cardDiv2) => {
   cardDiv2.lastElementChild.firstElementChild.style.borderColor = 'red';
   console.log(`strike ${playerStrikes}`)
   playerStrikes += 1
-  displayStrikes();
+  displayScore(strikeCount, playerStrikes);
   setTimeout(function () {
     hideCard(cardDiv1);
     hideCard(cardDiv2);
@@ -178,7 +167,6 @@ const cardsMismatch = (cardDiv1, cardDiv2) => {
   }, 1000);
 };
 
-// Evaluates two cards to determine if equal
 const checkMatch = (card1, card2, cardFlipper1, cardFlipper2) => {
   if (card1.value === card2.value) {
     cardsMatch(cardFlipper1, cardFlipper2);
@@ -187,7 +175,6 @@ const checkMatch = (card1, card2, cardFlipper1, cardFlipper2) => {
   }
 };
 
-// Evaluates whether a card can be flipped over and decides how to proceed
 let inspectCard = (card, cardFlipper) => {
   if (cardFlipper.classList.contains('matched') || cardFlipper.classList.contains('fixed')) {
     return;
@@ -201,6 +188,7 @@ let inspectCard = (card, cardFlipper) => {
     cardsInPlay = 1;
   } else {
     card2 = card;
+    // checks if 2nd selected selected card is the same as the 1st
     if (card1.code === card2.code) {
       return;
     }
@@ -211,10 +199,11 @@ let inspectCard = (card, cardFlipper) => {
   }
 }
 
-//Resets the game, shuffles the deck and deals the cards. Listens for card click.
+//Build the deck and listen for interaction
 const buildBoard = async (deck) => {
   reset();
   let deckId = deck.data.deck_id;
+  // console.log(deckId);
   await axios.get(apiCall + deckId + "/shuffle/");
   let cardDrawCall = await axios.get(apiCall + deckId + drawNumber);
   let cards = cardDrawCall.data.cards;
@@ -236,8 +225,7 @@ const buildBoard = async (deck) => {
 
 // Initial call to the API for first and additional board building.
 const getDeck = async () => {
-  const deck = await axios.get(deckCall);
-  // buildBoard(deck);
+  let deck = await axios.get(deckCall);
   buildBoard(deck);
   startButton.style.display = 'none';
   scoreBox.style.display = 'grid'
@@ -246,7 +234,8 @@ const getDeck = async () => {
   });
 };
 
+// first interaction
 startButton.addEventListener('click', getDeck);
 
+// toggle
 // localStorage.clear()
-console.log(localStorage);

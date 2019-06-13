@@ -23,6 +23,10 @@ A card game that challenges the players to select cards and find the ones that m
 
 ### **Planned Features:**
 
+**Mechanics**
+
+* Hint System- after five strikes, earn a free peek at one card
+
 **Local Storage**
 
 * Store the Deck ID so a new deck doesn't have to be created when the page reloads
@@ -61,9 +65,17 @@ A card game that challenges the players to select cards and find the ones that m
 
 **Misc**
 
+* Create a nicer border for the body on laptop/desktop
+
+* Give New Game button a z-index so that drop shadow is masked by the game board
+
+* Update tracker for previous game strike count to show null if no cards were flipped
+
 * Add Rules and About info text
 
-* Hint System- after five strikes, earn a free peek at one card
+**Problems**
+
+* Figure out why the game board and score box are not centered with each other
 
 
 ### **Wireframes:**

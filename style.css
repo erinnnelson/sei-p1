@@ -1,7 +1,7 @@
+/* body */
 html {
   height: 100%;
   font-size: 16px;
-
 }
 body {
   text-align: center;
@@ -11,22 +11,19 @@ body {
   font-family: "Impact";
   margin-left: 0 auto;
 }
-
 nav {
   margin-bottom: 10px;
 }
-
 h1 {
   font-size: 2.5em;
   display: inline-block;
   margin: 0 3%;
 }
-
-nav a {
+/*for 'Rules' and 'About' sections - toggle on when sections added*/
+/* nav a {
 font-size: 1em;
 text-decoration: none;
-}
-
+} */
 #play-area {
   width: 75%;
   max-width: 800px;
@@ -34,6 +31,7 @@ text-decoration: none;
   position: relative;
 }
 
+/* end sign, now just a win sign */
 #end-sign {
 position: absolute;
 z-index: 1;
@@ -42,18 +40,17 @@ top: 50%;
 left: 50%;
 transform: translate(-50%, -50%);
 }
-
 #end-text {
   font-size: 10em;
   display: none;
   text-shadow: 3px 0 40px;
-
 }
 
+/* main board */
+/* borrowed some code from https://www.w3schools.com/howto/howto_css_flip_card.asp */
 #game-board {
   position: relative;
 }
-
 #card-layout {
 background: radial-gradient(green, darkgreen, darkgreen);
 width: 100%;
@@ -66,7 +63,6 @@ display: grid;
 grid-template-rows: 1fr 1fr 1fr 1fr;
 grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
-
 .card-placer {
   margin: auto;
   padding: 10px;
@@ -83,40 +79,34 @@ grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   transition: transform .4s;
   transform-style: preserve-3d;
 }
-
 .card-backs, .card-fronts {
   position: absolute;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
 }
-
 .card-fronts {
   transform: rotateY(180deg);
 }
-
 .card-backs img:hover {
   box-shadow: 0 2px 25px lightgrey;
 }
-
 .card-backs img:active {
   opacity: .5;
 }
-
 #card-layout img {
   border: 2px solid black;
   width: 100%;
   border-radius: 6px;
 }
-
 .fixed img:hover {
   box-shadow: none;
 }
-
 .fixed .card-backs img:active {
   opacity: 1;
 }
 
+/* initial start button */
 #start {
 position: absolute;
 top: 50%;
@@ -132,7 +122,6 @@ transition-property: color, border, font-size, font-weight, padding;
 transition-duration: .2s;
 transition-timing-function: ease-in;
 }
-
 #start:hover {
   color: black;
   border: 4px solid black;
@@ -142,14 +131,13 @@ transition-timing-function: ease-in;
   transition-property: color, border, font-size, font-weight, padding;
   transition-duration: .1s;
   transition-timing-function: linear;
-
 }
-
 #start:focus {
   opacity: .3;
   outline: none;
 }
 
+/* score trackers */
 #score-box {
   margin: 0 auto;
   width: 75%;
@@ -157,18 +145,17 @@ transition-timing-function: ease-in;
   display: none;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
-
 #strike-box {
   padding-left: 20%;
   text-align: left;
   line-height: 3px;
   display: none;
 }
-
 #match-count, #possible-matches, #strike-count, #possible-strikes {
 font-size: 20px;
 }
 
+/* new game button */
 #new-game-box {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
@@ -189,7 +176,6 @@ font-size: 20px;
   transition-duration: .2s;
   transition-timing-function: linear;
 }
-
 #new-game:hover {
   color: white;
   background-color: #ccaa82;
@@ -199,9 +185,7 @@ font-size: 20px;
   transition-property: font-weight, border-radius, box-shadow, background-color;
   transition-duration: 1.5s;
   transition-timing-function: ease-out;
-  
 }
-
 #new-game:focus {
   outline: none;
 }
