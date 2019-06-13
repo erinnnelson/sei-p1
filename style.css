@@ -24,14 +24,15 @@ h1 {
 font-size: 1em;
 text-decoration: none;
 } */
+
+/* below the header */
 #play-area {
   width: 80%;
   max-width: 800px;
   margin: auto;
   position: relative;
 }
-
-/* end sign, now just a win sign */
+/* end sign, now just a "win" sign */
 #end-sign {
 position: absolute;
 z-index: 1;
