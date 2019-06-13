@@ -14,9 +14,14 @@ Match Em Up is a card game built on HTML, CSS and JavaScript that challenges the
 * Cards animate to flip around and reveal thier value when clicked
 
 * Game recognizes cards with identical values as matches (The suit doesn't matter)
+
 * 10 matches wins the game
 
-* Cards are shuffled randomly between games
+* No losers! Play the game until you win and try to beat your lowest strike count
+
+* Cards are fully shuffled between games
+
+* Original graphic design features three randomly selected card colors
 
 * Local storage tracks the player's number of wins, strikes from the previous game, and all-time lowest strike record
 
