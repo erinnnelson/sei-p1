@@ -7,31 +7,31 @@
 
 ### **Project Purpose:**
 
-A card game that challenges the players to select cards and find the ones that match. It's a matching game. After a certain number of strikes, the player loses. If all cards are matched correctly, the player wins and goes to Disney World.
+A card game that challenges the players to select cards and find the ones that match using their memory. It's a matching game. If all cards are matched correctly, the player wins and goes to Disney World.
 
 ### **Current Features:**
 
-* Unknown cards flip around when clicked
+* Unknown cards animate to flip around and reveal thier face when clicked
 
-* Game recognizes cards that match and don't match
+* Game recognizes cards with identical values as matches. Suits don't matter.
 
 * 10 matches wins the game
 
-* 10 strikes loses the game
+* Cards are shuffled randomly every new game
 
-* Cards are shuffled randomly each new game
+* Local storage tracks the number of wins, number strikes from the previous game, and all time lowest strikes
 
 ### **Planned Features:**
 
 **Local Storage**
 
-* Track user wins, number of strikes from previous game and all time best score
-
 * Store the Deck ID so a new deck doesn't have to be created when the page reloads
 
-* Welcome returning players back
+* Welcome back returning players
 
-* Reset local storage
+* Button for resetting local storage
+
+* Only start the strikes from previous game count after the first card has been flipped in a new game
 
 **Format for Mobile**
 
@@ -61,11 +61,9 @@ A card game that challenges the players to select cards and find the ones that m
 
 **Misc**
 
-* Remove lose protocol- no more losers!
+* Add Rules and About info text
 
-* Add Rules and About text
-
-* Hint System- after five strikes, earn a hint
+* Hint System- after five strikes, earn a free peek at one card
 
 
 ### **Wireframes:**
