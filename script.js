@@ -9,7 +9,7 @@ const strikeBest = document.querySelector('#strike-best');
 const winCount = document.querySelector('#win-count');
 const endText = document.querySelector('#end-text');
 
-// Determining which cards are in the deck
+// Determine which cards are in the deck
 const playingCards = `AS,AC,KH,KD,QS,QC,JH,JD,0S,0C,9H,9D,7S,7C,5H,5D,3S,3C,2H,2D`;
 const deckColors = ['assets/card_blue3.png', 'assets/card_red3.png', 'assets/card_black3.png']
 let randomColor;
@@ -35,7 +35,7 @@ let totalWins;
 let cardsInPlay;
 let gameWon;
 
-// Updating score counters
+// Update score counters
 const displayScore = (htmlElement, score) => {
   htmlElement.innerText = score;
 };
@@ -85,7 +85,7 @@ const updatePrevStrikes = () => {
   }
 };
 
-// Prepare for a new game
+// Prepare for new game
 const reset = () => {
   updateWins();
   updateLowestStrikes();
@@ -104,7 +104,7 @@ const reset = () => {
   })
 };
 
-// Make card interaction inactive
+// Render card selection inactive
 const freezeCards = () => {
   cardPlacers.forEach((card) => {
     card.firstElementChild.classList.add('fixed');
@@ -117,7 +117,7 @@ const unfreezeCards = () => {
   })
 };
 
-// Flip and hide card animation triggers
+// Trigger card flipping animations
 const showCard = (cardFlipper) => {
   cardFlipper.style.transform = 'rotateY(-180deg)';
 };
@@ -138,7 +138,7 @@ const winProtocol = () => {
   console.log('you win!');
 };
 
-// Evaluating two card values
+// Evaluate two card values
 const cardsMatch = (cardFlipper1, cardFlipper2) => {
   cardFlipper1.classList.add('matched');
   cardFlipper2.classList.add('matched');
@@ -175,7 +175,7 @@ const checkMatch = (card1, card2, cardFlipper1, cardFlipper2) => {
   }
 };
 
-let inspectCard = (card, cardFlipper) => {
+const inspectCard = (card, cardFlipper) => {
   if (cardFlipper.classList.contains('matched') || cardFlipper.classList.contains('fixed')) {
     return;
   }
@@ -197,7 +197,7 @@ let inspectCard = (card, cardFlipper) => {
     checkMatch(card1, card2, prevCardFlipper, cardFlipper);
     cardsInPlay = 0;
   }
-}
+};
 
 //Build the deck and listen for interaction
 const buildBoard = async (deck) => {
