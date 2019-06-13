@@ -65,6 +65,8 @@ A card game that challenges the players to select cards and find the ones that m
 
 **Misc**
 
+* Make strike tracker bigger and highlighted when strikes !== 0
+
 * Create a nicer border for the body on laptop/desktop
 
 * Give New Game button a z-index so that drop shadow is masked by the game board
