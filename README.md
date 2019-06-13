@@ -33,7 +33,9 @@ Match Em Up is a card game built on HTML, CSS and JavaScript that challenges the
 
 **New Mechanics**
 
-* Hint System- after five strikes, earn a free peek!
+* Preview Mode: show all cards quickly before the game begins (thanks, Kenneth!)
+
+* Hint System: after five strikes, earn a free peek!
 
 **Local Storage**
 
