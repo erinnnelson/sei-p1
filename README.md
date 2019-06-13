@@ -29,6 +29,10 @@ A card game that challenges the players to select cards and find the ones that m
 
 * Store the Deck ID so a new deck doesn't have to be created when the page reloads
 
+* Welcome returning players back
+
+* Reset local storage
+
 **Format for Mobile**
 
 * Reformat card layout

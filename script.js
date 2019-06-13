@@ -4,6 +4,9 @@ const startButton = document.querySelector('#start');
 const newGameButton = document.querySelector('#new-game');
 const scoreBox = document.querySelector('#score-box');
 const strikeCount = document.querySelector('#strike-count');
+const strikeLast = document.querySelector('#strike-last');
+const strikeBest = document.querySelector('#strike-best');
+const winCount = document.querySelector('#win-count');
 const endText = document.querySelector('#end-text');
 
 // Determining which cards are in the deck
@@ -26,22 +29,85 @@ const drawNumber = `/draw/?count=20`;
 // Variable declarations
 let playerScore;
 let playerStrikes;
-let gameHasEnded;
+let prevStrikes;
+let lowestStrikes;
+let totalWins;
 let cardsInPlay;
+let gameWon;
 
 // Updates player's status
 const displayStrikes = () => {
   strikeCount.innerText = playerStrikes;
 };
 
+const displayPrevStrikes = () => {
+  strikeLast.innerText = prevStrikes;
+};
+
+const displayLowestStrikes = () => {
+  strikeBest.innerText = lowestStrikes;
+};
+
+const displayWins = () => {
+  winCount.innerText = totalWins;
+};
+
+const updateWins = () => {
+  if (!totalWins) {
+    if (localStorage.getItem('totalWins')) {
+      totalWins = localStorage.getItem('totalWins');
+    } else {
+      totalWins = 0;
+    }
+    displayWins();
+  }
+};
+
+const updateLowestStrikes = () => {
+  if (gameWon && playerStrikes < lowestStrikes || gameWon && !lowestStrikes) {
+    lowestStrikes = playerStrikes;
+    localStorage.setItem('lowestStrikes', lowestStrikes);
+    displayLowestStrikes();
+  } else if (lowestStrikes === 0) {
+  } else if (!lowestStrikes) {
+    if (localStorage.getItem('lowestStrikes')) {
+      lowestStrikes = localStorage.getItem('lowestStrikes');
+      console.log(lowestStrikes);
+      displayLowestStrikes();
+    } else {
+      strikeBest.innerText = '-';
+    }
+  }
+};
+
+const updatePrevStrikes = () => {
+  if (prevStrikes || prevStrikes === 0) {
+    prevStrikes = playerStrikes;
+    localStorage.setItem('prevStrikes', prevStrikes);
+    displayPrevStrikes();
+  } else {
+    if (localStorage.getItem('prevStrikes')) {
+      prevStrikes = localStorage.getItem('prevStrikes');
+      displayPrevStrikes();
+    } else {
+      strikeLast.innerText = '-';
+      prevStrikes = 0;
+      localStorage.setItem('prevStrikes', prevStrikes);
+    }
+  }
+};
+
 // Resets everything for a new game
 const reset = () => {
-  gameHasEnded = false;
+  updateWins();
+  updateLowestStrikes();
+  updatePrevStrikes();
   playerScore = 0;
   playerStrikes = 0;
   displayStrikes();
   cardsInPlay = 0;
   deckColorChange();
+  gameWon = false;
   endText.style.display = 'none';
   cardPlacers.forEach((card) => {
     card.firstElementChild.innerHTML = ''
@@ -49,7 +115,6 @@ const reset = () => {
     card.firstElementChild.style.transform = ''
   })
 };
-
 
 // Functions for freezing/unfreezing all cards on the board so they cannot be selected/flipped
 const freezeCards = () => {
@@ -69,13 +134,18 @@ const showCard = (cardFlipper) => {
 };
 const hideCard = (cardFlipper) => {
   cardFlipper.style.transform = '';
-}
+};
 
 // enacting end-game activity
 const winProtocol = () => {
   endText.style.webkitTextStroke = '3px lightgreen'
   endText.innerText = "YOU WIN";
   endText.style.display = 'inline-block';
+  totalWins = Number(totalWins) + 1;
+  localStorage.setItem('totalWins', totalWins);
+  displayWins();
+  gameWon = true;
+  updateLowestStrikes();
   console.log('you win!');
 };
 
@@ -86,32 +156,33 @@ const cardsMatch = (cardFlipper1, cardFlipper2) => {
   cardFlipper1.lastElementChild.firstElementChild.style.borderColor = 'lightgreen';
   cardFlipper2.lastElementChild.firstElementChild.style.borderColor = 'lightgreen';
   console.log('match!')
+  playerScore += 1;
   if (playerScore >= 10) {
     winProtocol();
   }
-}
+};
+
 const cardsMismatch = (cardDiv1, cardDiv2) => {
   freezeCards();
   cardDiv1.lastElementChild.firstElementChild.style.borderColor = 'red';
   cardDiv2.lastElementChild.firstElementChild.style.borderColor = 'red';
   console.log(`strike ${playerStrikes}`)
-    setTimeout(function () {
-      hideCard(cardDiv1);
-      hideCard(cardDiv2);
-      cardDiv1.lastElementChild.firstElementChild.style.borderColor = 'black';
-      cardDiv2.lastElementChild.firstElementChild.style.borderColor = 'black';
-      unfreezeCards();
-    }, 1000);
+  playerStrikes += 1
+  displayStrikes();
+  setTimeout(function () {
+    hideCard(cardDiv1);
+    hideCard(cardDiv2);
+    cardDiv1.lastElementChild.firstElementChild.style.borderColor = 'black';
+    cardDiv2.lastElementChild.firstElementChild.style.borderColor = 'black';
+    unfreezeCards();
+  }, 1000);
 };
 
 // Evaluates two cards to determine if equal
 const checkMatch = (card1, card2, cardFlipper1, cardFlipper2) => {
   if (card1.value === card2.value) {
-    playerScore += 1;
     cardsMatch(cardFlipper1, cardFlipper2);
   } else {
-    playerStrikes += 1
-    displayStrikes();
     cardsMismatch(cardFlipper1, cardFlipper2);
   }
 };
@@ -163,7 +234,6 @@ const buildBoard = async (deck) => {
   })
 }
 
-
 // Initial call to the API for first and additional board building.
 const getDeck = async () => {
   const deck = await axios.get(deckCall);
@@ -178,4 +248,5 @@ const getDeck = async () => {
 
 startButton.addEventListener('click', getDeck);
 
+// localStorage.clear()
 console.log(localStorage);
