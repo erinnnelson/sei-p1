@@ -1,31 +1,34 @@
-# Unitled Card Matching Game
+# Match Em Up
 
 ## -an incredible use of the Deck of Cards API, by Erinn Nelson
 
-### **[Surge Site](https://http://cardmatch.surge.sh/ "Card Matching Game")**
+### **[Match Em Up on Surge](https://http://cardmatch.surge.sh/ "A great game of memory")**
 
 
 ### **Project Purpose:**
 
-A card game that challenges the players to select cards and find the ones that match using their memory. It's a matching game. If all cards are matched correctly, the player wins and goes to Disney World.
+Match Em Up is a card game built on HTML, CSS and JavaScript that challenges the player to find cards of matching value (ie King matches with a King). Flip over two cards to see if you got a match. If your cards don't match, they go back face down on the table. Can you remember which cards were where? If all cards are matched correctly, the player wins and goes to Disney World!
 
 ### **Current Features:**
 
-* Unknown cards animate to flip around and reveal thier face when clicked
+* Cards animate to flip around and reveal thier value when clicked
 
-* Game recognizes cards with identical values as matches. Suits don't matter.
-
+* Game recognizes cards with identical values as matches (The suit doesn't matter)
 * 10 matches wins the game
 
-* Cards are shuffled randomly every new game
+* Cards are shuffled randomly between games
 
-* Local storage tracks the number of wins, number strikes from the previous game, and all time lowest strikes
+* Local storage tracks the player's number of wins, strikes from the previous game, and all-time lowest strike record
+
+* Formatted for portrain and landscape on mobile (iPhone X tested)
+
+* Formatted for portrait mode on tablet (non-tested)
 
 ### **Planned Features:**
 
-**Mechanics**
+**New Mechanics**
 
-* Hint System- after five strikes, earn a free peek at one card
+* Hint System- after five strikes, earn a free peek!
 
 **Local Storage**
 
@@ -33,15 +36,7 @@ A card game that challenges the players to select cards and find the ones that m
 
 * Welcome back returning players
 
-* Button for resetting local storage
-
-* Only start the strikes from previous game count after the first card has been flipped in a new game
-
-**Format for Mobile**
-
-* Reformat card layout
-
-* Turn off over hover animations
+* Reset scores with the click of a button
 
 **Animations**
 
@@ -65,20 +60,21 @@ A card game that challenges the players to select cards and find the ones that m
 
 **Misc**
 
-* Make strike tracker bigger and highlighted when strikes !== 0
+* Emphasize the strike counter when the number rises above 0
 
-* Create a nicer border for the body on laptop/desktop
+* Count strikes from the previous game only if a card was checked
 
-* Give New Game button a z-index so that drop shadow is masked by the game board
+* Create a nicer border/aesthetic for pc play
 
-* Update tracker for previous game strike count to show null if no cards were flipped
+* Give the New Game button a z-index so its drop shadow is masked by the game board
 
-* Add Rules and About info text
+* Add Rules and About text info
 
-**Problems**
+**Known Issues**
 
-* Figure out why the game board and score box are not centered with each other
+* Mobile formatting seperates card front and back images slightly. Tapping to turn a card is problamatic.
 
+* Game board and score box are not centered with each other
 
 ### **Wireframes:**
 
